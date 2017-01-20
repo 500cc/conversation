@@ -8,13 +8,15 @@ window.SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
 var recognition = new webkitSpeechRecognition();
 recognition.lang = 'ja';
 
+function dojson() {
+  $.getJSON("https://www.cotogoto.ai/webapi/noby.json?callback=?",{app_key:"038bcc1ecb40a944d6ca4877b65db88c",text:text},function(data){
+      alert("JSON Data: " + data.text);
+    });
+}
 recognition.addEventListener('result', function(event){
     var text = event.results.item(0).item(0).transcript;
     $("#result_text").val(text);
-    $.getJSON("https://www.cotogoto.ai/webapi/noby.json?callback=?",{app_key:"038bcc1ecb40a944d6ca4877b65db88c",text:text},function(data){
-        alert("JSON Data: " + data.text);
-      });)
-
+    dojson();
 }, false);
 
 function record()
