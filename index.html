@@ -6,7 +6,7 @@
 <script>
 function playVoice(language, message){
 	$.ajax( {
-		url : "https://rospeex.ucri.jgn-x.jp/nauth_json/jsServices/VoiceTraSS",
+		url : "//rospeex.ucri.jgn-x.jp/nauth_json/jsServices/VoiceTraSS",
 		data : {
 			method : "speak",
 			params : [language, message, "*", "audio/x-wav"]
@@ -41,7 +41,6 @@ recognition.addEventListener('result', function(event){
     var text = event.results.item(0).item(0).transcript;
     $("#result_text").val(text);
     $.done($.getJSON("https://www.cotogoto.ai/webapi/noby.json?callback=?",{app_key:"038bcc1ecb40a944d6ca4877b65db88c",text:text},function(data){
-        alert("JSON Data: " + data.text);
         playVoice("ja",data.text);
       }));
 }, false);
