@@ -3,6 +3,7 @@
   <meta charset="UTF-8" />
   <title>test</title>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet" href="chat.css">
 <script>
 function playVoice(language, message){
 	$.ajax( {
@@ -39,9 +40,11 @@ recognition.lang = 'ja';
 
 recognition.addEventListener('result', function(event){
     var text = event.results.item(0).item(0).transcript;
-    $("#result_text").val(text);
+    document.getElementById("kaiwa").innerHTML += '<p class="chat-talk"><span class="talk-content">'+text+'</span></p>'
+        $("#result_text").val(text);
     $.done($.getJSON("https://www.cotogoto.ai/webapi/noby.json?callback=?",{app_key:"038bcc1ecb40a944d6ca4877b65db88c",text:text},function(data){
         playVoice("ja",data.text);
+        document.getElementById("kaiwa").innerHTML += '<p class="chat-talk mytalk"><span class="talk-content">'+data.text+'</span></p>'
       }));
 }, false);
 
@@ -58,5 +61,8 @@ function record()
 </textarea>
 <br />
 <input type="button" onClick="record()" value="録音開始" />
+<div id="chat-frame">
+
+</div>
 </body>
 </html>
