@@ -6,7 +6,7 @@
 <script>
 function playVoice(language, message){
 	$.ajax( {
-		url : "http://rospeex.ucri.jgn-x.jp/nauth_json/jsServices/VoiceTraSS",
+		url : "https://rospeex.ucri.jgn-x.jp/nauth_json/jsServices/VoiceTraSS",
 		data : {
 			method : "speak",
 			params : [language, message, "*", "audio/x-wav"]
