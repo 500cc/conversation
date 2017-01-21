@@ -4,6 +4,35 @@
   <title>test</title>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script>
+function playVoice(language, message){
+	$.ajax( {
+		url : "http://rospeex.ucri.jgn-x.jp/nauth_json/jsServices/VoiceTraSS",
+		data : {
+			method : "speak",
+			params : [language, message, "*", "audio/x-wav"]
+		},
+		dataType : 'jsonp',
+		jsonp : 'callback',
+		cache : false,
+		success : function(data) {
+			console.log(data);
+			if( data['error'] == null ) {
+				audio = new Audio("data:audio/wav;base64," + data['result']['audio']);
+				audio.play();
+			}
+		},
+		error : function(XMLHttpRequest, status, errorThrown) {
+			console.log(status);
+			console.log(errorThrown);
+			console.log(XMLHttpRequest);
+		},
+		complete : function(XMLHttpRequest, status) {
+			if( status != "success" ) {
+				console.log("Voicetra Server Error : ", status);
+			}
+		}
+	});
+}
 window.SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
 var recognition = new webkitSpeechRecognition();
 recognition.lang = 'ja';
@@ -13,6 +42,7 @@ recognition.addEventListener('result', function(event){
     $("#result_text").val(text);
     $.done($.getJSON("https://www.cotogoto.ai/webapi/noby.json?callback=?",{app_key:"038bcc1ecb40a944d6ca4877b65db88c",text:text},function(data){
         alert("JSON Data: " + data.text);
+        playVoice("ja",data.text);
       }));
 }, false);
 
